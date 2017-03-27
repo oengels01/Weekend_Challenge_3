@@ -20,7 +20,7 @@ router.get('/', function(req, res){
       res.send(500);
     } else {
 
-      db.query('SELECT * FROM todo;', function(queryError, result){
+      db.query('SELECT * FROM tasks;', function(queryError, result){
         if(queryError) {
           console.log('Error making query.');
           res.send(500);
@@ -35,7 +35,7 @@ router.get('/', function(req, res){
 
 router.post('/add', function(req, res){
   console.log(req.body);
-  var task = req.body.task;
+  var tasks = req.body.task;
   var complete = req.body.complete;
 
   pool.connect(function(errorConnectingToDatabase, db, done){
@@ -43,8 +43,8 @@ router.post('/add', function(req, res){
       console.log('Error connecting to the database.');
       res.send(500);
     } else {
-
-      db.query('INSERT INTO "todo" ("task", "complete")' +
+      // We connected!!!!
+      db.query('INSERT INTO "tasks" ("task", "complete")' +
                ' VALUES ($1,$2);',
                [task, complete], function(queryError, result){
         done();
@@ -69,7 +69,7 @@ router.put('/edit', function(req, res){
       console.log('Error connecting to the database.');
       res.send(500);
     } else {
-      db.query('UPDATE "todo" SET "task" = $1, "complete" = $2 WHERE "id" = $3',
+      db.query('UPDATE "tasks" SET "task" = $1, "complete" = $2 WHERE "id" = $3',
 
                [task, complete, id], function(queryError, result){
         done();
@@ -91,7 +91,7 @@ router.delete('/delete/:id', function(req, res){
       console.log('Error connecting to the database.');
       res.send(500);
     } else {
-      db.query('DELETE FROM "todo" WHERE "id" = $1',
+      db.query('DELETE FROM "tasks" WHERE "id" = $1',
                [id], function(queryError, result){
         done();
         if(queryError) {

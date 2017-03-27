@@ -1,12 +1,12 @@
-CREATE TABLE todo(
+CREATE TABLE tasks(
 	id SERIAL PRIMARY KEY,
 	task VARCHAR (1000) NOT NULL,
-	complete VARCHAR (100) NOT NULL
+	complete BOOLEAN NOT NULL DEFAULT FALSE
 );
 
-INSERT INTO todo (task, complete) VALUES ('create', 2010-01-01 );
-INSERT INTO todo (task, complete) VALUES ('add', 2011-01-01);
-INSERT INTO todo (task, complete) VALUES ('select', 2012-01-01);
-INSERT INTO todo (task, complete) VALUES ('enter', 2013-01-01);
-INSERT INTO todo (task, complete) VALUES ('mark', 2014-01-01);
-INSERT INTO todo (task, complete) VALUES ('delete', 2015-01-01);
+INSERT INTO tasks (task) VALUES ('create');
+INSERT INTO tasks (task)  VALUES ('add');
+INSERT INTO tasks(task)   VALUES ('select');
+INSERT INTO tasks (task)  VALUES ('enter');
+INSERT INTO tasks (task)  VALUES ('mark');
+INSERT INTO tasks (task)  VALUES ('delete');

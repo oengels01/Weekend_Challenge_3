@@ -27,6 +27,22 @@ $(document).ready(function(){
     $('#complete').val($(this).data('complete'));
   });
 
+//   $('#todo').on('change', '.complete', function(){
+//     console.log($(this).data('todo'));
+//     // Make AJAX request to complete a task
+//     // Set complete to true in the database
+//     $.ajax({
+//       type: "GET",
+//       url: "/todo/complete",
+//       success: function(response) {
+//         console.log(response);
+//         if(editing) {
+//           editing = true;
+//           $('#formTask').text("Check the box");
+// }
+// }
+//   });
+
 
 
   $('#todoForm').on('submit', function(event){
@@ -43,7 +59,7 @@ $(document).ready(function(){
         success: function(response){
           getTask();
         }
-});
+      });
     } else {
       $.ajax({
         type: "POST",
@@ -75,11 +91,23 @@ function getTask() {
         $el.append('<td>' + todo.complete + '</td>');
         $el.append('<td><button class="delete" data-todo="' +
         todo.id + '">Delete</button></td>');
-        $el.append('<td><input type="checkbox" value="checkbox" data-todo"' +
-        todo.id + '" data-task="' +
-        todo.task + '" data-complete="'+
-        todo.complete +'"></checkbox</td>');
+        // $el.append('<td><input type="checkbox" value="checkbox" data-todo"' +
+        // todo.id + '" data-task="' +
+        // todo.task + '" data-complete="'+
+        // todo.complete +'"></checkbox</td>');
+        if(todo.complete === true){
+          $el.append('<td><input type="checkbox" class="complete" value="checkbox" data-todo="' +
+          todo.id + '" data-task="' +
+          todo.task + '" checked></td>');
+        } else {
+          $el.append('<td><input type="checkbox" class="complete" value="checkbox" data-todo="' +
+          todo.id + '" data-task="' +
+          todo.task + '" data-complete="'+
+          todo.complete +'"></td>');
+
+        }
       }
     }
   });
+
 }
