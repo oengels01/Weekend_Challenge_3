@@ -14,6 +14,7 @@ var config = {
 var pool = new pg.Pool(config);
 
 router.get('/', function(req, res){
+  console.log("in get /todo/");
   pool.connect(function(errorConnectingToDatabase, db, done){
     if(errorConnectingToDatabase) {
       console.log('Error connecting to the database.');
@@ -104,5 +105,31 @@ router.delete('/delete/:id', function(req, res){
     }
   });
 });
+router.put('/complete/:id/:complete', function(req, res){
+  console.log(req.params);
+  var id = req.params.id;
+  var complete = req.params.complete;
+  pool.connect(function(errorConnectingToDatabase, db, done){
+    if(errorConnectingToDatabase) {
+      console.log('Error connecting to the database.');
+      res.send(500);
+    } else {
+      // UPDATE "tasks" SET "complete" = TRUE WHERE "id" = 6;
+      db.query('UPDATE "tasks" SET "complete" = $1 WHERE "id" = $2',
+               [complete,id], function(queryError, result){
+        done();
+        if(queryError) {
+          console.log('Error making query.');
+          res.send(500);
+        } else {
+          res.sendStatus(201);
+
+        }
+      });
+    }
+  });
+});
+
+
 
 module.exports = router;

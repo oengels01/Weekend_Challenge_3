@@ -27,22 +27,30 @@ $(document).ready(function(){
     $('#complete').val($(this).data('complete'));
   });
 
-//   $('#todo').on('change', '.complete', function(){
-//     console.log($(this).data('todo'));
-//     // Make AJAX request to complete a task
-//     // Set complete to true in the database
-//     $.ajax({
-//       type: "GET",
-//       url: "/todo/complete",
-//       success: function(response) {
-//         console.log(response);
-//         if(editing) {
-//           editing = true;
-//           $('#formTask').text("Check the box");
-// }
-// }
-//   });
+  $('#todo').on('change', '.complete', function(){
+    console.log($(this).data('todo'));
+    // Make AJAX request to complete a task
+    // Set complete to true in the database
+    var id = $(this).data('todo');
+    var complete;
+    if ($(this).is(":checked")){
+    complete = true;
+    } else{
+    complete = false;
+    }
+    $.ajax({
+      type: "PUT",
+      url: "/todo/complete/" + id + "/" + complete,
+      success: function(response) {
+        // console.log(response);
+            getTask();
+        // if(complete) {
+        //   complete = true;
+        //   $('#formTask').text("Check the box");
 
+        }
+    });
+  });
 
 
   $('#todoForm').on('submit', function(event){
@@ -57,7 +65,7 @@ $(document).ready(function(){
         url: "/todo/edit",
         data: {task: $('#task').val(), complete:$('#complete').val(), id: taskId },
         success: function(response){
-          getTask();
+            getTask();
         }
       });
     } else {
@@ -72,10 +80,13 @@ $(document).ready(function(){
     }
     $('#task').val('');
     $('#complete').val('');
+
   });
+
 });
 
 function getTask() {
+  console.log("in getTask()");
   $.ajax({
     type: "GET",
     url: "/todo",
@@ -104,10 +115,8 @@ function getTask() {
           todo.id + '" data-task="' +
           todo.task + '" data-complete="'+
           todo.complete +'"></td>');
-
         }
       }
     }
-  });
-
-}
+    });
+  }
